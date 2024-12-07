@@ -7,69 +7,50 @@
 #define MAX_ROWS 200
 
 void print_file();
-char file_store(int*num_rows,char row[MAX_ROWS][MAX_LENGTH]);
+void file_store(int*num_rows,char row[MAX_ROWS][MAX_LENGTH]);
+void stringCopy(char[], char[]);
+void stringSwap(char[], char[]);
 //fucntion to pull from document(scan)
 //function to display madlib
 int main(){
 	int  a, v, n, j, num_rows, countA=0, countN=0, countV=0;
-	char row[MAX_ROWS][MAX_LENGTH], i, adjective[MAX_ROWS], noun[MAX_ROWS], verb[MAX_ROWS], adj[MAX_ROWS][MAX_LENGTH], ver[MAX_ROWS][MAX_LENGTH], non[MAX_ROWS][MAX_LENGTH];
+	char row[MAX_ROWS][MAX_LENGTH], i, adjective[MAX_ROWS][MAX_LENGTH], noun[MAX_ROWS], verb[MAX_ROWS], adj[MAX_ROWS][MAX_LENGTH], ver[MAX_ROWS][MAX_LENGTH], non[MAX_ROWS][MAX_LENGTH];
 	
 	file_store(&num_rows, row);
 	for(j=0; j<num_rows;j++){
 		
 		if(row[j][0] ==  'A'){
-			
 			printf("please enter an adjective: ");
-			scanf("%s", &adj[countA]);
-			adjective[countA]=row[j][0];
+			scanf("%s", adj[countA]);
+			stringSwap(adj[countA],row[j]);
 			countA++;
 		}
 		else if(row[j][0] ==  'N'){
 			printf("please enter an noun: ");
 			scanf("%s", &non[countN]);
-			noun[countN]=row[j][0];
+			stringSwap(non[countN],row[j]);
 			countN++;
 		}
 		else if(row[j][0] ==  'V'){
 			printf("please enter an verb: ");
 			scanf("%s", &ver[countV]);
-			verb[countV]=row[j][0];
+			stringSwap(ver[countV],row[j]);
 			countV++;
 		}
-		else{
-		printf("%s", row[j]);
-		}
+//		else{
+//			printf("%s", row[j]);
+//		}
 	}
+	
 	printf("countA: %d, countN: %d, countV: %d\n" , countA, countN, countV);
-	for(a=0;a<countA;a++){
-		printf("%c\n", adjective[a]);
-		printf("adjectives\n");
-		}
-	for(n=0;n<countN;n++){
-		printf("%c\n", noun[n]);
-		printf("nouns\n");
-		}
-	for(v=0;v<countV;v++){
-		printf("%c\n", verb[v]);
-		printf("verbs\n");
-		}
-	for(a=0;a<countA;a++){
-		printf("%s\n", adj[a]);
-		printf("adjective\n");
-		}
-	for(n=0;n<countN;n++){
-		printf("%s\n", non[n]);
-		printf("noun\n");
-		}
-	for(v=0;v<countV;v++){
-		printf("%s\n", ver[v]);
-		printf("verb\n");
-		}	
+	for(j=0; j<num_rows;j++){
+		printf("%s ", row[j]);
+	}
 	printf("\n");
 	return 0;
 }
 
-char file_store(int*num_rows,char row[MAX_ROWS][MAX_LENGTH]){
+void file_store(int*num_rows,char row[MAX_ROWS][MAX_LENGTH]){
 
 	
 	FILE*fptr;
@@ -101,3 +82,17 @@ void print_file(){
 	fclose(fptr);
 	printf("print_file\n");
 	}
+void stringCopy(char source[], char dest[]) {
+    int index = 0;
+    while (source[index] != '\0') {
+        dest[index] = source[index]; 
+        index++;
+    }
+	dest[index] = '\0';
+}
+void stringSwap(char str1[], char str2[]) {
+    char temp[MAX_LENGTH];
+    stringCopy(str1, temp);
+    stringCopy(str2, str1);
+    stringCopy(temp, str2); 
+}
