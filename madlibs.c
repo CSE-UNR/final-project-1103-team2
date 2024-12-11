@@ -12,10 +12,11 @@ void stringSwap(char str1[], char str2[], int length);
 void condition_A(char adj[], char row[], int *countA);
 void condition_N(char non[], char row[], int *countN);
 void condition_V(char ver[], char row[], int *countV);
+
 int main(int argc, char*argv[]){
 	char *filename=argv[1];
 	int  a, v, n, j, num_rows, countA=0, countN=0, countV=0;
-	char row[MAX_ROWS][MAX_LENGTH], adj[MAX_ROWS][MAX_LENGTH],ver[MAX_ROWS][MAX_LENGTH], non[MAX_ROWS][MAX_LENGTH];
+	char row[MAX_ROWS][MAX_LENGTH], adj[MAX_ROWS][MAX_LENGTH],ver[MAX_ROWS][MAX_LENGTH], non[MAX_ROWS][MAX_LENGTH], temp[MAX_ROWS][MAX_LENGTH];
 	
 	file_store(&num_rows, row, filename);
 	for(j=0; j<num_rows;j++){
@@ -31,13 +32,17 @@ int main(int argc, char*argv[]){
 			condition_V(ver[countV],row[j], &countV);
 		}
 	}
+
 	for(j=0; j<num_rows;j++){
-		if(row[j][0]=='!'||row[j][0]=='.'||row[j][0]==':'||row[j][0]==':'||row[j][0]==','||row[j][0]=='"'||row[j][0]=='?'){
-			printf("\b");
-		}	
+		int length=0;
+		while(row[j][length] != '\0'){
+			if(row[j][length] == '\n'){
+				row[j][length]= ' ';
+			}
+			length++;
+		}
 		printf("%s", row[j]);
 	}
-		
 	printf("\n");
 	return 0;
 }
@@ -50,13 +55,6 @@ void file_store(int*num_rows,char row[MAX_ROWS][MAX_LENGTH],char *filename){
 	}
 	*num_rows=0;
 	while(*num_rows<MAX_ROWS && fgets(row[*num_rows], MAX_LENGTH, fptr) !=NULL){
-		int length=0;
-		while(row[*num_rows][length] != '\0'){
-			if(row[*num_rows][length] == '\n'){
-				row[*num_rows][length]= ' ';
-			}
-			length++;
-		}
 		(*num_rows)++;
 	}
 	fclose(fptr);
@@ -86,7 +84,7 @@ void condition_A(char adj[], char row[], int *countA){
 		len++;
 	}
 	row[len] = ' '; 
-	row[len + 1] = '\0';
+	row[len + 1] = '\0';	
 	*countA++;
 }
 void condition_N(char non[], char row[], int *countN){
